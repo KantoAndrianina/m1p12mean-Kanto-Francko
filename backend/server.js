@@ -23,5 +23,11 @@ mongoose.connect(process.env.MONGO_URI, {
 app.get('/', (req, res) => {
     res.send('Bienvenue sur mon API ! 🚀');
 });
+
+// user
+const userRoutes = require('./routes/userRoutes');
+app.use('/users', userRoutes);
+
+
 app.listen(PORT, () => console.log(`Serveur démarré sur le port
 ${PORT}`));
