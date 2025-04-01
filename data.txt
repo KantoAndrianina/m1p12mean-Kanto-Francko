@@ -1,0 +1,13 @@
+USER
+{
+  "nom": "Don Pedro",
+  "email": "donpedro@example.com",
+  "mot_de_passe": "tequila",
+  "role": "manager"
+}
+POST http://localhost:5001/users/login
+POST http://localhost:5001/users/register
+
+ng generate component login
+ng generate component register
+
