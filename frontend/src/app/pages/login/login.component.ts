@@ -61,7 +61,8 @@ export class LoginComponent {
           console.log('Réponse complète du serveur :', response);
   
           localStorage.setItem('token', response.token);
-  
+          console.log("✅ Token stocké dans localStorage :", localStorage.getItem('token'));
+          
           const decodedToken: any = jwtDecode(response.token);
           const role = decodedToken.role; 
   

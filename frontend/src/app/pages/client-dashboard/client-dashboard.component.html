@@ -1,1 +1,89 @@
-<p>client-dashboard works!</p>
+<div class="dashboard-container">
+    <!-- Menu latéral -->
+    <nav class="sidebar">
+      <ul>
+        <li><a routerLink="/client/dashboard">Dashboard</a></li>
+        <li><a routerLink="/client/vehicules">Mes Véhicules</a></li>
+        <li><a routerLink="/client/profil">Mon Profil</a></li>
+        <li (click)="logout()">Déconnexion</li>
+      </ul>
+    </nav>
+  
+    <!-- Contenu principal -->
+    <div class="content">
+      <h2>Bienvenue dans votre espace client</h2>
+      <!-- Formulaire d'ajout de véhicule -->
+      <div class="form-container">
+        <h3 class="form-title">Ajouter un véhicule</h3>
+        <form [formGroup]="vehiculeForm" (ngSubmit)="ajouterVehicule()" class="vehicule-form">
+          
+          <div class="input-group">
+            <label for="marque">Marque</label>
+            <input id="marque" formControlName="marque" type="text" placeholder="Ex: Toyota">
+          </div>
+      
+          <div class="input-group">
+            <label for="modele">Modèle</label>
+            <input id="modele" formControlName="modele" type="text" placeholder="Ex: Corolla">
+          </div>
+      
+          <div class="input-group">
+            <label for="annee">Année</label>
+            <input id="annee" formControlName="annee" type="number" placeholder="Ex: 2020">
+          </div>
+      
+          <div class="input-group">
+            <label for="immatriculation">Immatriculation</label>
+            <input id="immatriculation" formControlName="immatriculation" type="text" placeholder="Ex: 1234-AB-75">
+          </div>
+      
+          <button type="submit" class="btn ajouter">Ajouter</button>
+        </form>
+      </div>
+      
+      <!-- Liste des véhicules -->
+      <div class="vehicules">
+        <h3>Vos véhicules :</h3>
+        <div class="vehicules-container">
+          @for (vehicule of vehicules; track vehicule._id) {
+            <div class="vehicule-card">
+              <h3>{{ vehicule.marque }} {{ vehicule.modele }}</h3>
+              <p><strong>Année :</strong> {{ vehicule.annee }}</p>
+              <p><strong>Immatriculation :</strong> {{ vehicule.immatriculation }}</p>
+              <div class="actions">
+                <button (click)="modifierVehicule(vehicule)" class="btn modifier">Modifier</button>
+                <button (click)="supprimerVehicule(vehicule._id)" class="btn supprimer">Supprimer</button>
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+<!-- Modal de modification -->
+<div class="modal-overlay" *ngIf="isModalOpen">
+  <div class="modal-content">
+    <h2>Modifier le véhicule</h2>
+    
+    <form [formGroup]="vehiculeForm" (ngSubmit)="validerModification()">
+      <label>Marque :</label>
+      <input type="text" formControlName="marque" required>
+
+      <label>Modèle :</label>
+      <input type="text" formControlName="modele" required>
+
+      <label>Année :</label>
+      <input type="number" formControlName="annee" required>
+
+      <label>Immatriculation :</label>
+      <input type="text" formControlName="immatriculation" required>
+
+      <div class="actions">
+        <button type="submit" class="btn modifier">Enregistrer</button>
+        <button type="button" (click)="fermerModal()" class="btn supprimer">Annuler</button>
+      </div>
+    </form>
+  </div>
+</div>
