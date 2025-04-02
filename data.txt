@@ -1,3 +1,6 @@
+mongosh "mongodb+srv://kantoraben:AmQrM0WI6yFCjgDW@projetmean.mhqxte4.mongodb.net/?retryWrites=true&w=majority&appName=ProjetMean"
+
+
 USER
 {
   "nom": "Don Pedro",
