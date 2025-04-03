@@ -32,12 +32,24 @@ app.use('/users', userRoutes);
 const vehiculeRoutes = require('./routes/vehiculeRoutes');
 app.use('/vehicules', vehiculeRoutes);
 
+// SERVICE
+const serviceRoutes = require('./routes/serviceRoutes');
+app.use('/services', serviceRoutes);
+
+// RENDEZVOUS
+const rendezVousRoutes = require('./routes/rendezVousRoutes');
+app.use('/rendezvous', rendezVousRoutes);
+
 // const bcrypt = require('bcryptjs');
 
 // const hashedPassword = "$2b$10$Lben9w.mBPg7eTVSQousA.DXjeBXRnQ6oJOAKG8lxTLwfLKp1ahAy";
 // const enteredPassword = "123456";
 
 // bcrypt.compare(enteredPassword, hashedPassword).then(console.log);
+
+mongoose.connection.once("open", () => {
+    console.log("Connecté à la base :", mongoose.connection.name);
+});
 
 app.listen(PORT, () => console.log(`Serveur démarré sur le port
 ${PORT}`));

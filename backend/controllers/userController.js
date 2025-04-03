@@ -16,8 +16,8 @@ exports.register = async (req, res) => {
         let user = await User.findOne({ email });
         if (user) return res.status(400).json({ message: 'Email déjà utilisé' });
 
-        user = new User({ nom, email, mot_de_passe, role }); // Pas de hash ici !
-        console.log("Utilisateur AVANT save:", JSON.stringify(user, null, 2));
+        user = new User({ nom, email, mot_de_passe, role });
+        // console.log("Utilisateur AVANT save:", JSON.stringify(user, null, 2));
 
         await user.save();
 
@@ -34,15 +34,15 @@ exports.login = async (req, res) => {
     try {
         const { email, mot_de_passe } = req.body;
         console.log("Email envoyé:", email);
-        console.log("Mot de passe envoyé:", mot_de_passe); // Log 3
+        // console.log("Mot de passe envoyé:", mot_de_passe); 
 
         const user = await User.findOne({ email });
         if (!user) return res.status(400).json({ message: 'Utilisateur non trouvé' });
 
-        console.log("Mot de passe en base:", user.mot_de_passe); // Log 4
+        // console.log("Mot de passe en base:", user.mot_de_passe);
 
         const isMatch = await bcrypt.compare(mot_de_passe, user.mot_de_passe);
-        console.log("Résultat bcrypt.compare:", isMatch); // Log 5
+        // console.log("Résultat bcrypt.compare:", isMatch); 
 
         if (!isMatch) return res.status(400).json({ message: 'Mot de passe incorrect' });
 

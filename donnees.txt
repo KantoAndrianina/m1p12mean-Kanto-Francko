@@ -1,0 +1,124 @@
+USER
+{
+  "nom": "Glen Fiddich",
+  "email": "glenfiddich@email.com",
+  "mot_de_passe": "malt",
+  "role": "client"
+}
+{
+  "nom": "Jack Daniels",
+  "email": "jackdaniels@email.com",
+  "mot_de_passe": "black",
+  "role": "client"
+}
+{
+  "nom": "Don Pedro",
+  "email": "donpedro@email.com",
+  "mot_de_passe": "tequila",
+  "role": "manager"
+}
+{
+  "nom": "Eric Rakoto",
+  "email": "ericrakoto@email.com",
+  "mot_de_passe": "tenameca",
+  "role": "mecanicien"
+}
+
+ROUTES
+
+USER
+
+POST
+http://localhost:5001/users/login
+{
+  "email": "ericrakoto@email.com",
+  "mot_de_passe": "tenameca"
+}
+
+POST
+http://localhost:5001/users/register
+{
+  "nom": "Eric Rakoto",
+  "email": "ericrakoto@email.com",
+  "mot_de_passe": "tenameca",
+  "role": "mecanicien"
+}
+
+VEHICULE
+Dans chaque requête :
+Clé : Authorization
+Valeur : [token]
+
+- Ajouter un véhicule
+Méthode : POST http://localhost:5000/vehicules
+Body (JSON) :
+{
+  "marque": "Toyota",
+  "modele": "Corolla",
+  "annee": 2018,
+  "immatriculation": "ABC-123"
+}
+
+- Voir tous ses véhicules
+Méthode : GET http://localhost:5000/vehicules
+
+- Modifier un véhicule
+Méthode : PUT http://localhost:5000/vehicules/:id
+Exemple d’URL : http://localhost:5000/vehicules/65a9c12e4a5b8e2f10...
+Body (JSON) :
+{
+  "annee": 2020
+}
+
+- Supprimer un véhicule
+Méthode : DELETE http://localhost:5000/vehicules/:id
+Exemple d’URL : http://localhost:5000/vehicules/65a9c12e4a5b8e2f10...
+
+
+SERVICE
+Ajouter un service (Manager seulement)
+Méthode : POST
+URL : http://localhost:5000/services
+Headers :
+Authorization: Bearer <TOKEN_MANAGER>
+Body (JSON) :
+{
+  "nom": "Vidange complète",
+  "description": "Vidange et remplacement du filtre à huile",
+  "prix": 60,
+  "dureeEstimee": 45,
+  "categorie": "Mécanique"
+}
+
+- Récupérer les services (Tout le monde peut voir)
+Méthode : GET
+URL : http://localhost:5000/services
+
+
+RENDEZVOUS
+- Prendre un rendez-vous (Client seulement)
+Méthode : POST
+URL : http://localhost:5001/rendezvous
+Headers :
+Authorization: Bearer <TOKEN_CLIENT>
+Body (JSON) :
+{
+  "vehicule": "ID_DU_VEHICULE",
+  "service": "ID_DU_SERVICE",
+  "date": "2025-04-01T10:00:00.000Z"
+}
+
+- Voir ses rendez-vous
+Méthode : GET
+URL : http://localhost:5001/rendezvous
+
+- Voir tous les rendez-vous (Mécanicien / Manager seulement)
+Méthode : GET
+URL : http://localhost:5001/rendezvous/all
+
+Headers :
+Authorization: Bearer <TOKEN_MANAGER>
+
+- Annuler un rendez-vous (Client seulement)
+Méthode : PUT
+URL : http://localhost:5001/rendezvous/annuler/ID_DU_RDV
