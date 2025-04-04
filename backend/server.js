@@ -1,12 +1,6 @@
 const express = require('express');
 const mongoose = require('mongoose');
 // const cors = require('cors');
-const cors = require('cors');
-app.use(cors({
-  origin: ['https://m1p12mean-kanto-francko-frontend.onrender.com'],
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  allowedHeaders: ['Content-Type', 'Authorization']
-}));
 
 require('dotenv').config();
 
@@ -14,8 +8,15 @@ const app = express();
 const PORT = process.env.PORT || 5001;
 
 // Middleware
-app.use(cors());
+// app.use(cors());
 app.use(express.json());
+
+const cors = require('cors');
+app.use(cors({
+  origin: ['https://m1p12mean-kanto-francko-frontend.onrender.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 // Connexion à MongoDB
 mongoose.connect(process.env.MONGO_URI, {
