@@ -34,12 +34,13 @@ export class ApiService {
   
     return this.http.post<LoginResponse>(`${this.apiUrl}users/login`, credentials, { headers }).pipe(
       tap(response => {
-        console.log("Réponse du backend :", response); // Vérifie le retour du backend
+        console.log("Réponse complète du backend :", response); // Affiche TOUTE la réponse
+  
         if (response?.token) {
           localStorage.setItem('token', response.token);
-          console.log("Token stocké :", localStorage.getItem('token')); // Vérifie le stockage
+          console.log("Token stocké :", localStorage.getItem('token'));
         } else {
-          console.error("⚠️ Aucun token reçu !");
+          console.error("Aucun token reçu !");
         }
       }),
       catchError(error => {
@@ -48,8 +49,6 @@ export class ApiService {
       })
     );
   }
-  
-
 
   setUserRole(role: string): void {
     localStorage.setItem('userRole', role);
@@ -75,7 +74,7 @@ export class ApiService {
       'Content-Type': 'application/json'
     });
   
-    console.log("📌 Headers envoyés :", headers);
+    console.log("Headers envoyés :", headers);
     return this.http.get(`${this.apiUrl}vehicules/all`, { headers });
   }
   

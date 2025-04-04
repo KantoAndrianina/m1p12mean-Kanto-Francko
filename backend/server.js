@@ -1,6 +1,13 @@
 const express = require('express');
 const mongoose = require('mongoose');
+// const cors = require('cors');
 const cors = require('cors');
+app.use(cors({
+  origin: ['https://m1p12mean-kanto-francko-frontend.onrender.com'],
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization']
+}));
+
 require('dotenv').config();
 
 const app = express();
