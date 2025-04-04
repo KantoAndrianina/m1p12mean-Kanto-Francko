@@ -3,6 +3,12 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../environments/environment';
+import { tap, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+
+interface LoginResponse {
+  token: string;
+}
 
 @Injectable({
   providedIn: 'root'
@@ -18,10 +24,32 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}users/register`, userData, { headers });
   }
 
-  login(credentials: any): Observable<any> {
+  // login(credentials: any): Observable<any> {
+  //   const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+  //   return this.http.post(`${this.apiUrl}users/login`, credentials, { headers });
+  // }
+
+  login(credentials: any): Observable<LoginResponse> {
     const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
-    return this.http.post(`${this.apiUrl}users/login`, credentials, { headers });
+  
+    return this.http.post<LoginResponse>(`${this.apiUrl}users/login`, credentials, { headers }).pipe(
+      tap(response => {
+        console.log("Réponse du backend :", response); // Vérifie le retour du backend
+        if (response?.token) {
+          localStorage.setItem('token', response.token);
+          console.log("Token stocké :", localStorage.getItem('token')); // Vérifie le stockage
+        } else {
+          console.error("⚠️ Aucun token reçu !");
+        }
+      }),
+      catchError(error => {
+        console.error("Erreur de connexion :", error);
+        return throwError(() => error);
+      })
+    );
   }
+  
+
 
   setUserRole(role: string): void {
     localStorage.setItem('userRole', role);
